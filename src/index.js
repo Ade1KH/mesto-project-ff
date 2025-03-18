@@ -65,7 +65,7 @@ function handleCardSubmit (evt) {
     name: plaseName.value,
     link: plaseUrl.value
   }
-  placesList.prepend(createCard(newCard, deleteCard, zoomImage, likeCard));
+  placesList.prepend(createCard(newCard, deleteCard, zoomImage, handleCardSubmit, likeCard));
   newPlaseForm.reset();
   closeModal(cardContent);
 }
