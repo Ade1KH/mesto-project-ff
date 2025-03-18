@@ -3,7 +3,7 @@
 import './pages/index.css';
 import { initialCards } from './components/cards.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
-import { openModal, closeModal, closeOverlay, EscModal } from './components/modal.js';
+import { openModal, closeModal} from './components/modal.js';
 
 //DOM узлы
 const placesList = document.querySelector('.places__list');
@@ -22,6 +22,7 @@ const popUpImg = document.querySelector('.popup_type_image');
 const closeImg = popUpImg.querySelector('.popup__close');
 const imageCard = popUpImg.querySelector('.popup__image');
 const imageCaption = popUpImg.querySelector('.popup__caption');
+const popUpButton = document.querySelectorAll('.popup');
 
 //функция редактирование профиля
 
@@ -37,24 +38,17 @@ function handleFormSubmit(evt) {
     jobInput.value = profileDescription.textContent;
   }
 
-  function clickEsc (evt) {
-    if(evt.target === popUpClose) {
-        evt.forms.reset();
-    }
-  }
-
 //листнеры
 
 buttonAddCard.addEventListener('click', () => openModal(cardContent));
 profileForm.addEventListener('submit', handleFormSubmit); 
-closeCardSection.addEventListener('click' , () => closeModal(cardContent));
+
 popUpClose.addEventListener('click', () => closeModal(profilePopUp));
-profilePopUp.addEventListener('mousedown', closeOverlay);
 profileActive.addEventListener('click', function () {
     openModal(profilePopUp);
-    inputsProfileFill()
+    inputEditProfile()
   });
-closeImg.addEventListener('click', () => closeModal(popUpImg));
+
 
 //добавление карточек
 
@@ -71,12 +65,12 @@ function handleCardSubmit (evt) {
     name: plaseName.value,
     link: plaseUrl.value
   }
-  placesList.prepend(createCard(newCard, deleteCard, zoomImage, likeCard))
+  placesList.prepend(createCard(newCard, deleteCard, zoomImage, likeCard));
   newPlaseForm.reset();
   closeModal(cardContent);
 }
 
-saveCard.addEventListener('click', handleCardSubmit);
+newPlaseForm.addEventListener('submit', handleCardSubmit);
 
 //zoom image
 
@@ -90,12 +84,20 @@ function zoomImage (evt) {
  
 
 function addCards() {
-    initialCards.forEach((cardItems) => {
-        const cardElement = createCard(cardItems, deleteCard, zoomImage, handleCardSubmit, likeCard); 
+    initialCards.forEach((initialCards) => {
+        const cardElement = createCard(initialCards, deleteCard, zoomImage, handleCardSubmit, likeCard); 
         placesList.append(cardElement);
     });
   }
 
 
+  popUpButton.forEach(function (element) {
+    element.classList.add('popup_is-animated')
+});
+
+document.querySelectorAll('.popup__close').forEach(button => {
+    const buttonsPopup = button.closest('.popup'); 
+    button.addEventListener('click', () => closeModal(buttonsPopup)); 
+  }); 
   
   addCards();

@@ -2,7 +2,6 @@
 
 function openModal (popUp) {
   popUp.classList.add('popup_is-opened');
-  popUp.classList.add('popup_is-animated');
   document.addEventListener('keydown', EscModal);
   popUp.addEventListener('mousedown', closeOverlay)
 }
