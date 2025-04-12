@@ -21,3 +21,18 @@
   right: 0;
   z-index: 10;
 }
+
+.display-disabled {
+  display: none;
+}
+
+.like_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup__content_confirm-delete {
+  max-height: 181px;
+  min-height: 100px;
+}
