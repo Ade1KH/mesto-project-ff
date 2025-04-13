@@ -32,7 +32,7 @@ function createCard(cardData, toogleLikeCard, zoomImage, deleteModal, currentUse
               cardLikesCounterElement.classList.remove('display-disabled')
           }
       })
-      .catch(err => console.error(`Упс, лайкнуть не удалось: ${err}`))
+      .catch(err => console.error(`Ошибка: ${err}`))
   })
 
   cardImage.addEventListener('click', () => {
