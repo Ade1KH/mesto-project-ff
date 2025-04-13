@@ -26,7 +26,7 @@
   display: none;
 }
 
-.like_box {
+.card__likes-box{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +35,9 @@
 .popup__content_confirm-delete {
   max-height: 181px;
   min-height: 100px;
+}
+
+.card__likes-counter {
+  font-size: 13px;
+  margin-top: 3px;
 }

@@ -1,66 +1,71 @@
-//фнкция создания карточки
+//создание карточки
 function createCard(cardData, toogleLikeCard, zoomImage, deleteModal, currentUserId) {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
-  const cardTitle = cardElement.querySelector(".card__title");
+  const cardTemplate = document.querySelector('#card-template').content
+  const card = cardTemplate.querySelector('.card').cloneNode(true)
+  const cardImage = card.querySelector('.card__image')
+  const cardTitle = card.querySelector('.card__title')
 
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  const cardLikeButton = cardElement.querySelector(".card__like-button");
+  const cardDeleteButton = card.querySelector('.card__delete-button')
+  const cardLikeButton = card.querySelector('.card__like-button')
 
-  const cardLikes = cardElement.querySelector(".card__likes-counter");
+  const cardLikesCounterElement = card.querySelector('.card__likes-counter')
   const isLikedByCurrentUser = cardData.likes.some(card => card._id === currentUserId)
 
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
-  cardTitle.textContent = cardData.name;
-  cardLikes.textContent = cardData.likes.length;
+  cardImage.src = cardData.link
+  cardImage.alt = cardData.name
+  cardTitle.textContent = cardData.name
+  cardLikesCounterElement.textContent = cardData.likes.length
 
+
+//слушатели
   cardLikeButton.addEventListener('click', () => {
-    const isCardLiked = cardLikeButton.classList.contains('card__like-button_is-active');
+      const isCardLiked = cardLikeButton.classList.contains('card__like-button_is-active')
 
-    toogleLikeCard(cardData._id, isCardLiked)
-    .then(updatedCard => {
-        cardLikeButton.classList.toggle('card__like-button_is-active')
-        cardLikes.textContent = updatedCard.likes.length;
+      toogleLikeCard(cardData._id, isCardLiked)
+      .then(updatedCard => {
+          cardLikeButton.classList.toggle('card__like-button_is-active')
+          cardLikesCounterElement.textContent = updatedCard.likes.length
 
-        if (cardLikes.textContent < 1) {
-          cardLikes.add('display-disabled')
-      } else {
-        cardLikes.remove('display-disabled')
-      }
-    })
-    .catch(err => console.error(`Ошибка: ${err}`))
-})
+          if (cardLikesCounterElement.textContent < 1) {
+              cardLikesCounterElement.classList.add('display-disabled')
+          } else {
+              cardLikesCounterElement.classList.remove('display-disabled')
+          }
+      })
+      .catch(err => console.error(`Упс, лайкнуть не удалось: ${err}`))
+  })
 
-cardImage.addEventListener('click', () => {
-    zoomImage(cardData.name, cardData.link)
-})
+  cardImage.addEventListener('click', () => {
+      zoomImage(cardData.name, cardData.link)
+  })
 
-deleteButton.addEventListener('click', () => {
-  deleteModal(cardData._id, cardElement)
-})
+  cardDeleteButton.addEventListener('click', () => {
+      deleteModal(cardData._id, card)
+  })
 
-if (currentUserId !== cardData.owner._id) {
-  deleteButton.classList.add('display-disabled')
+
+  if (currentUserId !== cardData.owner._id) {
+      cardDeleteButton.classList.add('display-disabled')
+  }
+
+  if (isLikedByCurrentUser) {
+      cardLikeButton.classList.add('card__like-button_is-active')
+  }
+
+  if (cardData.likes.length === 0) {
+      cardLikesCounterElement.classList.add('display-disabled')
+
+  } else {
+      cardLikesCounterElement.classList.remove('display-disabled')
+  }
+
+
+  return card
 }
 
-if (isLikedByCurrentUser) {
-  cardLikeButton.classList.add('card__like-button_is-active')
-}
-
-if (cardData.likes.length === 0) {
-  cardLikes.classList.add('display-disabled')
-
-} else {
-  cardLikes.classList.remove('display-disabled')
-}
-
-return cardElement;
-}
-
+//удаление карточек
 const deleteCard = (cardElement) => {
   cardElement.remove();
 };
 
-export { createCard, deleteCard};
+export { createCard, deleteCard };
